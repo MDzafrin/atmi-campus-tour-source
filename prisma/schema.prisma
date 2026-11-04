@@ -1,0 +1,87 @@
+// ============================================================
+// ATMI CAMPUS TOUR — Prisma Schema
+// ------------------------------------------------------------
+// SENGaja dibuat ramah-Supabase (PostgreSQL):
+//   • Tidak ada tipe khusus SQLite (tanpa Json, tanpa enum)
+//   • Semua daftar (list) disimpan sebagai String dipisah koma
+//   • Nama model & kolom mengikuti konvensi standar Prisma
+//
+// CARA PINDAH KE SUPABASE:
+//   1. Ubah `provider = "sqlite"` di bawah menjadi "postgresql"
+//   2. Isi DATABASE_URL di .env dengan connection string Supabase
+//      (Project Settings → Database → Connection string → URI,
+//      gunakan yang "Connection pooling" / port 6543 untuk serverless)
+//   3. Jalankan:  bun run db:generate && bun run db:push
+//   Detail lengkap ada di file SUPABASE-SETUP.md
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------- Reservasi kunjungan -----------------
+model Reservation {
+  id           String    @id @default(cuid())
+  code         String    @unique // kode unik reservasi, contoh: ATMI-20261103-A1B2
+  verifyToken  String    @unique @default(cuid()) // token untuk link verifikasi email
+  tourType     String // slug program visit saat booking (mis. "general", "student")
+  programName  String    @default("") // snapshot nama program saat booking
+  participants Int // jumlah peserta
+  date         String // tanggal kunjungan, format yyyy-MM-dd
+  timeSlot     String // slot waktu, contoh: "09:00-11:00"
+  name         String // nama penanggung jawab
+  institution  String // sekolah / lembaga / perusahaan
+  email        String // email pendaftar (tujuan email verifikasi)
+  phone        String // nomor WhatsApp / telepon
+  notes        String? // catatan tambahan
+  status       String    @default("PENDING") // PENDING = menunggu verifikasi email, CONFIRMED = sudah verifikasi
+  verifiedAt   DateTime? // waktu verifikasi email
+  createdAt    DateTime  @default(now())
+}
+
+// ----------------- Program visit (diedit dari dashboard) -----------------
+model TourProgram {
+  id          String   @id @default(cuid())
+  slug        String   @unique // dipakai sebagai tourType di Reservation
+  sortOrder   Int      @default(0) // urutan tampil (kecil = atas)
+  active      Boolean  @default(true) // tampil / tidak di website
+  highlight   Boolean  @default(false) // ditandai "Populer" di kartu
+  nameId      String // nama program (Bahasa Indonesia)
+  nameEn      String // nama program (English)
+  descId      String // deskripsi singkat (Bahasa Indonesia)
+  descEn      String // deskripsi singkat (English)
+  includesId  String   @default("") // poin yang termasuk, satu per baris (Bahasa Indonesia)
+  includesEn  String   @default("") // poin yang termasuk, satu per baris (English)
+  durationMin Int      @default(150) // durasi visit dalam menit
+  capacityMax Int      @default(30) // kapasitas maksimal peserta program ini
+  imageUrl    String   @default("") // URL foto kartu program
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ----------------- Pengaturan formulir reservasi (1 baris, id = 1) -----------------
+model SiteSetting {
+  id              Int      @id @default(1)
+  minParticipants Int      @default(10) // jumlah peserta minimal
+  maxParticipants Int      @default(30) // jumlah peserta maksimal (default)
+  durationMinutes Int      @default(150) // durasi visit default (menit)
+  timeSlots       String   @default("09:00-11:00,13:30-15:30") // slot waktu, dipisah koma
+  openDates       String   @default("") // tanggal visit yang DIBUKA, CSV yyyy-MM-dd (kosong = admin belum set)
+  updatedAt       DateTime @updatedAt
+}
+
+// ----------------- Log email keluar (bukti kirim / inbox demo) -----------------
+model EmailLog {
+  id        String   @id @default(cuid())
+  toEmail   String
+  subject   String
+  bodyHtml  String
+  status    String   @default("QUEUED") // SENT = terkirim SMTP, QUEUED = menunggu (SMTP belum diset), FAILED = gagal
+  error     String? // pesan error jika FAILED
+  createdAt DateTime @default(now())
+}
