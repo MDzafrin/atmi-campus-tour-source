@@ -21,19 +21,19 @@ const FACILITIES: {
   },
   {
     img: IMG.facilityCnc,
-    alt: "Operator mengoperasikan mesin CNC",
+    alt: "Workshop mesin CNC dan mesin perkakas",
     title: "facilities.2.title",
     desc: "facilities.2.desc",
   },
   {
     img: IMG.facilityMecha,
-    alt: "Laboratorium mekatronika dan robotika",
+    alt: "Praktik perakitan modul mekatronika dan robotika",
     title: "facilities.3.title",
     desc: "facilities.3.desc",
   },
   {
     img: IMG.facilityDorm,
-    alt: "Kamar asrama mahasiswa",
+    alt: "Gedung asrama mahasiswa ATMI (Xaverius Dorm)",
     title: "facilities.4.title",
     desc: "facilities.4.desc",
   },

@@ -21,11 +21,11 @@ export function Hero() {
       <div className="relative min-h-[calc(100vh-6rem)] overflow-hidden">
         <Image
           src={IMG.hero}
-          alt="Mahasiswa ATMI mengoperasikan mesin CNC di workshop"
+          alt="Gedung dan taman Politeknik Industri ATMI Cikarang dengan patung Santo Mikael"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-[56%_center]"
         />
         <div
           className="absolute inset-0 bg-gradient-to-r from-atmi-navy-dark/95 via-atmi-navy/80 to-atmi-navy/30"

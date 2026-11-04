@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "manajemen industri",
   ],
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
   },
   openGraph: {
     title: "ATMI Campus Tour — Politeknik Industri ATMI Cikarang",
