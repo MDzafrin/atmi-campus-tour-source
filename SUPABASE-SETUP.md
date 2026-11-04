@@ -1,104 +1,69 @@
-# Panduan Setup Supabase — ATMI Campus Tour
+# Setup Supabase untuk ATMI Campus Tour
 
-Website ini dirancang agar bisa dipindahkan dari SQLite (demo) ke **Supabase
-(PostgreSQL)** dengan perubahan minimal. Struktur database sudah dibuat ramah
-Supabase: tanpa tipe khusus SQLite, tanpa enum Prisma, dan semua daftar
-disimpan sebagai string biasa.
+Aplikasi ini sekarang memakai PostgreSQL (Supabase) lewat Prisma. Struktur tabelnya tidak berubah dari versi SQLite, jadi kode aplikasi tidak perlu diubah.
 
-## Model yang ada
+Tabelnya ada empat: `Reservation` (pendaftar dan token verifikasi), `TourProgram` (program visit), `SiteSetting` (pengaturan formulir), dan `EmailLog` (salinan email keluar).
 
-| Model          | Fungsi                                                        |
-| -------------- | ------------------------------------------------------------- |
-| `Reservation`  | Data pendaftar campus tour + token verifikasi email           |
-| `TourProgram`  | Program visit (diedit dari dashboard)                         |
-| `SiteSetting`  | Pengaturan formulir: peserta, durasi, sesi waktu, tanggal buka |
-| `EmailLog`     | Salinan email verifikasi (audit / kotak masuk demo)           |
+## 1. Buat project Supabase
 
-## Langkah migrasi ke Supabase
+Daftar atau masuk di supabase.com, buat project baru, lalu simpan database password-nya. Password itu hanya muncul sekali. Untuk region, pilih yang paling dekat dengan pengguna, misalnya Singapore.
 
-### 1. Buat project Supabase
+## 2. Ambil dua connection string
 
-1. Daftar/masuk di [supabase.com](https://supabase.com) → **New project**.
-2. Simpan **database password** yang muncul (hanya ditampilkan sekali).
+Buka project, klik tombol **Connect** di dashboard, lalu salin dua string dari bagian pooler:
 
-### 2. Ambil connection string
+- Transaction pooler (port 6543) untuk `DATABASE_URL`. Tambahkan `?pgbouncer=true` di ujungnya. Ini yang dipakai aplikasi saat berjalan.
+- Session pooler (port 5432) untuk `DIRECT_URL`. Ini yang dipakai perintah Prisma seperti `db push`.
 
-1. Buka project → **Project Settings** (ikon gear) → **Database**.
-2. Bagian **Connection string** → pilih **URI**.
-3. Gunakan yang **Connection pooling** (port `6543`) untuk aplikasi web,
-   contohnya:
+Kenapa dua? Prisma CLI tidak jalan baik lewat transaction pooler, jadi migrasi dan push tabel perlu jalur sendiri. Pakai Session pooler, bukan koneksi direct `db.xxx.supabase.co`, karena koneksi direct itu hanya IPv6 dan sering gagal di jaringan rumah atau kampus yang belum dapat IPv6.
 
-   ```
-   postgresql://postgres.xxxx:[PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
-   ```
+Ganti `[PASSWORD]` dengan password database. Kalau password mengandung karakter khusus seperti `@` atau `#`, ubah dulu ke bentuk URL-encoded (`@` jadi `%40`).
 
-4. Ganti `[PASSWORD]` dengan password database Anda.
+## 3. Isi .env
 
-### 3. Ubah konfigurasi Prisma
-
-**a. Edit `prisma/schema.prisma`** — ubah provider SQLite menjadi PostgreSQL:
-
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-```
-
-**b. Edit `.env`** — ganti `DATABASE_URL`:
+Salin `.env.example` jadi `.env`, lalu isi `DATABASE_URL` dan `DIRECT_URL`. Sekalian cek variabel lain:
 
 ```env
-DATABASE_URL=postgresql://postgres.xxxx:[PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+APP_URL=https://domain-anda.com
+ADMIN_PASSWORD=password-kuat-anda
 ```
 
-> Tips: untuk migration/seed (bukan runtime) Supabase menyarankan koneksi
-> langsung port `5432`. Anda boleh memakai dua variabel terpisah, tapi
-> untuk kebutuhan app ini satu connection string pooling sudah cukup.
+`APP_URL` dipakai untuk link verifikasi di email. Isi juga `SMTP_*` kalau email mau terkirim sungguhan.
 
-### 4. Buat tabel di Supabase
-
-Jalankan:
+## 4. Buat tabel
 
 ```bash
 bun run db:generate
 bun run db:push
 ```
 
-Semua tabel (`Reservation`, `TourProgram`, `SiteSetting`, `EmailLog`) akan
-dibuat otomatis. Data awal (2 program visit + pengaturan default) dibuat
-sendiri oleh aplikasi saat pertama dijalankan (`ensureSeed`).
+Setelah ini keempat tabel muncul di Table Editor Supabase. Program visit dan pengaturan default dibuat otomatis oleh aplikasi saat pertama dibuka (`ensureSeed`).
 
-### 5. Perbarui URL produksi
+Catatan: script `db:push` memakai `--accept-data-loss`. Aman untuk database kosong, tapi kalau nanti tabel sudah berisi data asli dan skema berubah, baca dulu pesan Prisma sebelum lanjut.
 
-Di `.env`, sesuaikan:
+## 5. Pindahkan data lama (opsional)
 
-```env
-APP_URL=https://domain-anda.com   # dipakai untuk link verifikasi di email
-ADMIN_PASSWORD=password-kuat-anda # password login dashboard
+Kalau data di `db/custom.db` masih mau dipakai, jalankan:
+
+```bash
+bun scripts/migrate-sqlite-ke-supabase.ts
 ```
 
-### 6. (Opsional) Verifikasi tabel di dashboard Supabase
+Skrip ini menyalin pengaturan, program, reservasi, dan log email. Aman dijalankan ulang karena baris yang sudah ada dilewati.
 
-Buka **Table Editor** di dashboard Supabase — keempat tabel akan terlihat
-di sana. Anda bisa melihat/mengedit data reservasi langsung dari Supabase
-bila perlu.
+## 6. Jalankan
 
-## Checklist pindah server
+```bash
+bun run dev
+# atau
+bun run build && bun run start
+```
 
-- [ ] `prisma/schema.prisma` → `provider = "postgresql"`
-- [ ] `.env` → `DATABASE_URL` Supabase
-- [ ] `.env` → `APP_URL` domain produksi (agar tombol verifikasi email benar)
-- [ ] `.env` → `ADMIN_PASSWORD` baru
-- [ ] `.env` → kredensial `SMTP_*` (agar email verifikasi terkirim asli)
-- [ ] `bun run db:generate && bun run db:push`
-- [ ] Jalankan `bun run dev` / `bun run build && bun run start`
+## Checklist
 
-## Catatan struktur untuk Supabase
-
-- Kolom bertipe `String` panjang (mis. `EmailLog.bodyHtml`) otomatis jadi
-  `TEXT` di PostgreSQL.
-- Daftar seperti `SiteSetting.timeSlots` dan `openDates` disimpan sebagai
-  string dipisah koma — sengaja begitu agar identik antara SQLite dan
-  PostgreSQL dan tetap mudah diedit dari dashboard.
-- `Reservation.status` bernilai `PENDING` (menunggu verifikasi email) atau
-  `CONFIRMED` (sudah verifikasi) — dikelola aplikasi, tidak perlu enum DB.
+- [ ] `.env` berisi `DATABASE_URL` (6543, `?pgbouncer=true`) dan `DIRECT_URL` (5432)
+- [ ] `APP_URL` dan `ADMIN_PASSWORD` sudah diganti untuk produksi
+- [ ] `SMTP_*` terisi kalau email mau terkirim asli
+- [ ] `bun run db:generate && bun run db:push` berhasil
+- [ ] Data lama dipindah (kalau perlu)
+- [ ] `.env` dan `db/custom.db` tidak ikut di-commit atau dikirim ke orang lain

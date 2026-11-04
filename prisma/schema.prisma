@@ -1,18 +1,14 @@
 // ============================================================
-// ATMI CAMPUS TOUR — Prisma Schema
+// ATMI CAMPUS TOUR — Prisma Schema (PostgreSQL / Supabase)
 // ------------------------------------------------------------
-// SENGaja dibuat ramah-Supabase (PostgreSQL):
-//   • Tidak ada tipe khusus SQLite (tanpa Json, tanpa enum)
-//   • Semua daftar (list) disimpan sebagai String dipisah koma
-//   • Nama model & kolom mengikuti konvensi standar Prisma
+// Dibuat ramah-Supabase: tanpa tipe khusus, tanpa enum, dan
+// semua daftar disimpan sebagai String dipisah koma.
 //
-// CARA PINDAH KE SUPABASE:
-//   1. Ubah `provider = "sqlite"` di bawah menjadi "postgresql"
-//   2. Isi DATABASE_URL di .env dengan connection string Supabase
-//      (Project Settings → Database → Connection string → URI,
-//      gunakan yang "Connection pooling" / port 6543 untuk serverless)
-//   3. Jalankan:  bun run db:generate && bun run db:push
-//   Detail lengkap ada di file SUPABASE-SETUP.md
+// Dua variabel di .env:
+//   DATABASE_URL = pooler Supabase, transaction mode (port 6543,
+//                  akhiran ?pgbouncer=true). Dipakai aplikasi saat jalan.
+//   DIRECT_URL   = session pooler (port 5432). Dipakai Prisma CLI
+//                  (db push, migrate). Panduan lengkap: SUPABASE-SETUP.md
 // ============================================================
 
 generator client {
@@ -20,8 +16,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ----------------- Reservasi kunjungan -----------------
