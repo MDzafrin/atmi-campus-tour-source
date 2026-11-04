@@ -38,7 +38,7 @@ export function About() {
               aria-hidden="false"
             >
               <p className="text-[11px] font-semibold tracking-[0.2em] uppercase opacity-80">
-                Competentia · Conscientia · Compassio
+                Competence · Conscience · Compassion · Commitment · Leadership
               </p>
               <p className="mt-1 text-sm font-bold">{t("about.motto")}</p>
             </div>
