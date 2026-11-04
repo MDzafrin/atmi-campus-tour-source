@@ -20,8 +20,9 @@ export function About() {
   return (
     <section id="tentang" className="py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Image side */}
+        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="flex flex-col gap-14">
+          {/* Gambar pertama */}
           <Reveal className="relative">
             <div className="relative overflow-hidden rounded-2xl shadow-xl">
               <Image
@@ -34,19 +35,37 @@ export function About() {
               />
             </div>
             <div
-              className="absolute -bottom-5 -left-3 rounded-xl bg-atmi-red px-5 py-4 text-white shadow-lg md:-left-6"
+              className="absolute -bottom-5 -left-3 z-10 rounded-xl bg-atmi-red px-5 py-4 text-white shadow-lg md:-left-6"
               aria-hidden="false"
             >
               <p className="text-[11px] font-semibold tracking-[0.2em] uppercase opacity-80">
                 Competence · Conscience · Compassion · Commitment · Leadership
               </p>
-              <p className="mt-1 text-sm font-bold">{t("about.motto")}</p>
             </div>
             <div
               className="absolute -top-4 -right-4 hidden h-24 w-24 rounded-tl-2xl border-t-4 border-l-4 border-atmi-gold lg:block"
               aria-hidden="true"
             />
           </Reveal>
+
+          {/* Gambar kedua */}
+          <Reveal delay={0.1} className="relative">
+            <div className="relative overflow-hidden rounded-2xl shadow-xl">
+              <Image
+                src={IMG.about}
+                alt="Deskripsi foto kedua"
+                width={1200}
+                height={800}
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+            <div
+              className="absolute -bottom-4 -left-4 hidden h-24 w-24 rounded-bl-2xl border-b-4 border-l-4 border-atmi-gold lg:block"
+              aria-hidden="true"
+            />
+          </Reveal>
+        </div>
 
           {/* Text side */}
           <div>
@@ -90,6 +109,6 @@ export function About() {
           </div>
         </div>
       </div>
-    </section>
+  </section>
   );
 }

@@ -37,7 +37,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50">
       {/* Topbar */}
-      <div className="hidden bg-atmi-navy-dark text-white/80 md:block">
+      {/* <div className="hidden bg-atmi-navy-dark text-white/80 md:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1.5 text-xs">
           <div className="flex items-center gap-5">
             <span className="inline-flex items-center gap-1.5">
@@ -53,7 +53,7 @@ export function Header() {
             {t("nav.tagline")}
           </span>
         </div>
-      </div>
+      </div> */}
 
       {/* Main bar */}
       <div

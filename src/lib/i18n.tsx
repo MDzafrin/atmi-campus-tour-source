@@ -38,11 +38,11 @@ const id = {
   "hero.stats.years": "Tahun Menghasilkan SDM Industri",
 
   "about.kicker": "Tentang ATMI",
-  "about.title": "Politeknik Industri di Tengah Kawasan Industri Jababeka",
+  "about.title": "Mempersiapkan Generasi untuk Dunia Industri",
   "about.p1":
-    "Politeknik Industri ATMI Cikarang adalah perguruan tinggi vokasi Katolik yang berdiri sejak 2003 di bawah Yayasan Karya ATMI. Berlokasi di Jababeka Education Park, Cikarang, kampus ini tumbuh bersama ratusan perusahaan manufaktur di sekitarnya.",
+    "Politeknik Industri ATMI Cikarang merupakan perguruan tinggi vokasi yang berdiri sejak tahun 2003 di bawah naungan Yayasan Karya ATMI. Berlokasi di kawasan industri Jababeka, ATMI berfokus pada pendidikan di bidang industri dengan menggabungkan pembelajaran teori dan praktik secara langsung.",
   "about.p2":
-    "Dengan motto Competentia, Conscientia, Compassio — Kompetensi, Nurani, dan Welas Asih — ATMI membentuk teknisi dan manajer industri yang tidak hanya terampil, tetapi juga berintegritas.",
+    "Melalui kegiatan praktik dan proyek industri, mahasiswa dibekali keterampilan serta pengalaman yang sesuai dengan kebutuhan dunia kerja. Pendidikan di ATMI juga berlandaskan lima nilai utama, yaitu Competence, Conscience, Compassion, Commitment, dan Leadership, untuk membentuk lulusan yang terampil, bertanggung jawab, dan memiliki karakter.",
   "about.motto": "Kompetensi · Nurani · Welas Asih",
   "about.why.title": "Mengapa kuliah di ATMI berbeda?",
   "about.why.1.title": "Learning by Doing",

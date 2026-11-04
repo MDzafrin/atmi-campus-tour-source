@@ -43,10 +43,10 @@ export function Hero() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="max-w-3xl"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur">
+            {/* <span className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur">
               <span className="h-2 w-2 rounded-full bg-atmi-red" aria-hidden="true" />
               {t("hero.badge")}
-            </span>
+            </span> */}
             <h1 className="text-shadow-hero mt-6 text-4xl leading-[1.1] font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
               {t("hero.title1")}
               <span className="mt-2 block text-atmi-gold">{t("hero.title2")}</span>
