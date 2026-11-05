@@ -66,13 +66,13 @@ function TourCard({
             <div className="h-full w-full bg-atmi-navy/10" aria-hidden="true" />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-atmi-navy-dark/80 via-transparent to-transparent" />
-          <span
+          {/* <span
             className={`absolute top-4 left-4 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-white ${
               program.highlight ? "bg-atmi-red" : "bg-atmi-navy"
             }`}
           >
             {program.highlight ? "★ Populer" : "ATMI Tour"}
-          </span>
+          </span> */}
           <h3 className="absolute bottom-4 left-5 text-2xl font-extrabold text-white">
             {programName(program, lang)}
           </h3>
@@ -114,8 +114,8 @@ function TourCard({
             asChild
             className={`mt-6 w-full font-bold text-white ${
               program.highlight
-                ? "bg-atmi-red hover:bg-atmi-red-dark"
-                : "bg-atmi-navy hover:bg-atmi-navy-dark"
+                ? "bg-atmi-blue hover:bg-atmi-blue-dark"
+                : "bg-atmi-blue hover:bg-atmi-blue-dark"
             }`}
           >
             <a href="#reservasi" onClick={() => setTourType(program.slug)}>

@@ -35,7 +35,7 @@ export function About() {
               />
             </div>
             <div
-              className="absolute -bottom-5 -left-3 z-10 rounded-xl bg-atmi-red px-5 py-4 text-white shadow-lg md:-left-6"
+              className="absolute -bottom-5 -left-3 z-10 rounded-xl bg-atmi-blue px-5 py-4 text-white shadow-lg md:-left-6"
               aria-hidden="false"
             >
               <p className="text-[11px] font-semibold tracking-[0.2em] uppercase opacity-80">
@@ -91,9 +91,9 @@ export function About() {
                 {WHY.map((w) => (
                   <div
                     key={w.title}
-                    className="group rounded-xl border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-atmi-red/40 hover:shadow-lg"
+                    className="group rounded-xl border border-border bg-card p-4 transition-all hover:-translate-y-1 hover:border-atmi-gold/40 hover:shadow-lg"
                   >
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-atmi-navy/5 text-atmi-navy transition-colors group-hover:bg-atmi-red group-hover:text-white">
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-atmi-navy/5 text-atmi-navy transition-colors group-hover:bg-atmi-gold group-hover:text-white">
                       <w.icon className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <h4 className="mt-3 text-sm font-bold text-foreground">

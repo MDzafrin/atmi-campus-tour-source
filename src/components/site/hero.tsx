@@ -58,7 +58,7 @@ export function Hero() {
               <Button
                 asChild
                 size="lg"
-                className="bg-atmi-red text-base font-bold text-white shadow-lg shadow-atmi-red/30 hover:bg-atmi-red-dark"
+                className="bg-atmi-blue text-base font-bold text-white shadow-lg shadow-atmi-blue/30 hover:bg-atmi-gold"
               >
                 <a href="#reservasi">
                   <CalendarCheck className="h-5 w-5" />

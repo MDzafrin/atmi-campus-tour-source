@@ -84,18 +84,18 @@ const id = {
     "Butuh kunjungan khusus (industri, studi banding, atau agenda lembaga)? Hubungi kami di 0812 8833 1700 untuk menyusun agenda sesuai kebutuhan.",
 
   "facilities.kicker": "Fasilitas",
-  "facilities.title": "Kampus yang Beroperasi Seperti Industri",
+  "facilities.title": "Belajar dengan Fasilitas Berstandar Industri",
   "facilities.subtitle":
     "Selama tur, kamu akan berkeliling langsung ke fasilitas produksi dan pembelajaran ATMI.",
   "facilities.1.title": "Teaching Factory",
   "facilities.1.desc":
-    "Unit produksi nyata yang mengerjakan pesanan industri — mahasiswa belajar sambil memproduksi komponen sesuai standar pabrik.",
+    "Tempat belajar sekaligus praktik langsung melalui proses produksi dengan suasana dan standar kerja industri.",
   "facilities.2.title": "Workshop Mesin & CNC",
   "facilities.2.desc":
-    "Lini mesin bubut, milling, hingga CNC — konsep one student one machine membuat setiap mahasiswa benar-benar menguasai mesinnya.",
+    "Dilengkapi berbagai mesin konvensional hingga CNC, konsep one student one machine membuat setiap mahasiswa benar-benar menguasai mesinnya.",
   "facilities.3.title": "Lab Mekatronika & Robotika",
   "facilities.3.desc":
-    "PLC, pneumatik-hidraulik, hingga robot arm industri untuk program Sarjana Terapan Teknologi Rekayasa Mekatronika.",
+    "PLC, pneumatik-hidrolik, hingga robot arm industri untuk program Sarjana Terapan Teknologi Rekayasa Mekatronika.",
   "facilities.4.title": "Asrama Mahasiswa",
   "facilities.4.desc":
     "Dormitory wajib tahun pertama yang menumbuhkan kedisiplinan, kemandirian, dan solidaritas antar angkatan.",
@@ -168,39 +168,39 @@ const id = {
   "res.info.4": "Bisa request fokus kunjungan sesuai kebutuhan",
   "res.info.contact": "Butuh bantuan? Hubungi Marketing:",
 
-  "testi.kicker": "Testimoni",
-  "testi.title": "Kata Mereka yang Tumbuh di ATMI",
-  "testi.subtitle":
-    "Belajar di ATMI bukan sekadar teori — inilah pengalaman nyata alumni yang kini berkiprah di industri.",
-  "testi.1.quote":
-    "Materi kuliah sangat relevan dan terkoneksi dengan dunia kerja yang saya masuki. Kuncinya kerja keras dan learning by doing.",
-  "testi.1.name": "Ayup Riyadi Prihantoro",
-  "testi.1.role": "CEO PT Lastika Prima Teknik — Alumni ATMI",
-  "testi.2.quote":
-    "Pengalaman di ATMI membantu saya berkembang dalam keberanian, kepedulian, dan disiplin. Ilmu yang saya peroleh saya terapkan hingga di Republik Ceko.",
-  "testi.2.name": "Theo Zefanya",
-  "testi.2.role": "Skoda Transportation, Republik Ceko — Angkatan 2021",
-  "testi.3.quote":
-    "Pendidikan yang melatih mahasiswa untuk lebih kreatif dan mampu beradaptasi — manfaatnya masih saya rasakan hingga saat ini.",
-  "testi.3.name": "Agatha Evalina Christy",
-  "testi.3.role": "Alumni Muda Politeknik Industri ATMI",
+  // "testi.kicker": "Testimoni",
+  // "testi.title": "Kata Mereka yang Tumbuh di ATMI",
+  // "testi.subtitle":
+  //   "Belajar di ATMI bukan sekadar teori — inilah pengalaman nyata alumni yang kini berkiprah di industri.",
+  // "testi.1.quote":
+  //   "Materi kuliah sangat relevan dan terkoneksi dengan dunia kerja yang saya masuki. Kuncinya kerja keras dan learning by doing.",
+  // "testi.1.name": "Ayup Riyadi Prihantoro",
+  // "testi.1.role": "CEO PT Lastika Prima Teknik — Alumni ATMI",
+  // "testi.2.quote":
+  //   "Pengalaman di ATMI membantu saya berkembang dalam keberanian, kepedulian, dan disiplin. Ilmu yang saya peroleh saya terapkan hingga di Republik Ceko.",
+  // "testi.2.name": "Theo Zefanya",
+  // "testi.2.role": "Skoda Transportation, Republik Ceko — Angkatan 2021",
+  // "testi.3.quote":
+  //   "Pendidikan yang melatih mahasiswa untuk lebih kreatif dan mampu beradaptasi — manfaatnya masih saya rasakan hingga saat ini.",
+  // "testi.3.name": "Agatha Evalina Christy",
+  // "testi.3.role": "Alumni Muda Politeknik Industri ATMI",
 
-  "news.kicker": "Berita Terbaru",
-  "news.title": "What's On di Politeknik Industri ATMI",
-  "news.subtitle": "Kabar terkini dari kegiatan kampus dan civitas akademika.",
-  "news.readMore": "Baca selengkapnya",
-  "news.1.date": "30 Oktober 2026",
-  "news.1.tag": "News",
-  "news.1.title":
-    "Wisuda 2026: “It’s Time to Reclaim Our Legacy and Lead the Future”",
-  "news.2.date": "19 Agustus 2026",
-  "news.2.tag": "Campus Life",
-  "news.2.title":
-    "Arrupe Insight Eps. 8: “Bekerja Bukan dengan Perasaan, Melainkan Profesionalitas”",
-  "news.3.date": "14 Agustus 2026",
-  "news.3.tag": "Campus Life",
-  "news.3.title":
-    "Arrupe Insight Eps. 7: “Jika Kita Tidak Membidik Sesuatu, Maka Kita Tidak Akan Mendapatkan Sesuatu”",
+  // "news.kicker": "Berita Terbaru",
+  // "news.title": "What's On di Politeknik Industri ATMI",
+  // "news.subtitle": "Kabar terkini dari kegiatan kampus dan civitas akademika.",
+  // "news.readMore": "Baca selengkapnya",
+  // "news.1.date": "30 Oktober 2026",
+  // "news.1.tag": "News",
+  // "news.1.title":
+  //   "Wisuda 2026: “It’s Time to Reclaim Our Legacy and Lead the Future”",
+  // "news.2.date": "19 Agustus 2026",
+  // "news.2.tag": "Campus Life",
+  // "news.2.title":
+  //   "Arrupe Insight Eps. 8: “Bekerja Bukan dengan Perasaan, Melainkan Profesionalitas”",
+  // "news.3.date": "14 Agustus 2026",
+  // "news.3.tag": "Campus Life",
+  // "news.3.title":
+  //   "Arrupe Insight Eps. 7: “Jika Kita Tidak Membidik Sesuatu, Maka Kita Tidak Akan Mendapatkan Sesuatu”",
 
   "loc.kicker": "Lokasi & Kontak",
   "loc.title": "Temukan Kami di Jababeka Education Park",

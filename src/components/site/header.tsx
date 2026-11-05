@@ -96,8 +96,8 @@ export function Header() {
                   aria-pressed={lang === l}
                   className={`rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide transition-colors ${
                     lang === l
-                      ? "bg-atmi-red text-white shadow-sm"
-                      : "text-muted-foreground hover:text-atmi-navy"
+                      ? "bg-atmi-blue text-white shadow-sm"
+                      : "text-muted-foreground hover:text-atmi-gold"
                   }`}
                 >
                   {l}
@@ -107,7 +107,7 @@ export function Header() {
 
             <Button
               asChild
-              className="hidden bg-atmi-red font-bold text-white hover:bg-atmi-red-dark sm:inline-flex"
+              className="hidden bg-atmi-blue font-bold text-white hover:bg-atmi-gold sm:inline-flex"
             >
               <a href="#reservasi">
                 <CalendarCheck className="h-4 w-4" />
