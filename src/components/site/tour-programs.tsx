@@ -154,13 +154,17 @@ export function TourPrograms() {
                   </div>
                 </div>
               ))
-            : (config?.programs ?? []).map((program, i) => (
-                <TourCard
+            : (config?.programs ?? []).map((program, i, all) => (
+                <div
                   key={program.id}
-                  program={program}
-                  lang={lang}
-                  index={i}
-                />
+                  className={
+                    i === all.length - 1 && all.length % 2 === 1
+                      ? "h-full md:col-span-2 md:mx-auto md:w-[calc(50%-1rem)]"
+                      : "h-full"
+                  }
+                >
+                  <TourCard program={program} lang={lang} index={i} />
+                </div>
               ))}
           {config && config.programs.length === 0 && (
             <p className="col-span-2 rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">

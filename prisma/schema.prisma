@@ -16,9 +16,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 // ----------------- Reservasi kunjungan -----------------
@@ -36,6 +35,8 @@ model Reservation {
   email        String // email pendaftar (tujuan email verifikasi)
   phone        String // nomor WhatsApp / telepon
   notes        String? // catatan tambahan
+  companionId  String? // id pendamping yang dipilih (tanpa relasi: riwayat tetap aman kalau orangnya dihapus)
+  companionName String   @default("") // snapshot nama pendamping saat booking
   status       String    @default("PENDING") // PENDING = menunggu verifikasi email, CONFIRMED = sudah verifikasi
   verifiedAt   DateTime? // waktu verifikasi email
   createdAt    DateTime  @default(now())
@@ -57,8 +58,36 @@ model TourProgram {
   durationMin Int      @default(150) // durasi visit dalam menit
   capacityMax Int      @default(30) // kapasitas maksimal peserta program ini
   imageUrl    String   @default("") // URL foto kartu program
+  departmentId String? // bagian yang mendampingi program ini (kosong = tanpa pilihan pendamping)
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([departmentId])
+}
+
+// ----------------- Bagian pendamping (Marketing, Produksi, Recycle, ...) -----------------
+model Department {
+  id        String        @id @default(cuid())
+  name      String        @unique // nama bagian, tampil di form dan dashboard
+  active    Boolean       @default(true) // nonaktif = tidak ada pilihan pendamping di form
+  sortOrder Int           @default(0)
+  createdAt DateTime      @default(now())
+  members   Companion[]
+  programs  TourProgram[]
+}
+
+// ----------------- Anggota pendamping -----------------
+model Companion {
+  id           String     @id @default(cuid())
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  name         String
+  active       Boolean    @default(true) // nonaktif = hilang dari form, riwayat reservasi tetap
+  sortOrder    Int        @default(0)
+  createdAt    DateTime   @default(now())
+
+  @@index([departmentId])
 }
 
 // ----------------- Pengaturan formulir reservasi (1 baris, id = 1) -----------------

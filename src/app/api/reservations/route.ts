@@ -15,6 +15,7 @@ const reservationSchema = z.object({
   email: z.string().email().max(160),
   phone: z.string().min(9).max(17),
   notes: z.string().max(500).nullable().optional(),
+  companionId: z.string().max(60).nullable().optional(),
 });
 
 function buildCode() {
@@ -46,6 +47,17 @@ export async function POST(req: Request) {
     if (!program) {
       return NextResponse.json(
         { ok: false, error: "PROGRAM_NOT_FOUND" },
+        { status: 400 },
+      );
+    }
+
+    // Pendamping (opsional) harus anggota aktif dari bagian milik program ini.
+    const companion = data.companionId
+      ? program.companions.find((c) => c.id === data.companionId)
+      : undefined;
+    if (data.companionId && !companion) {
+      return NextResponse.json(
+        { ok: false, error: "COMPANION_INVALID" },
         { status: 400 },
       );
     }
@@ -92,6 +104,8 @@ export async function POST(req: Request) {
         email: data.email,
         phone: data.phone,
         notes: data.notes ?? null,
+        companionId: companion?.id ?? null,
+        companionName: companion?.name ?? "",
       },
     });
 

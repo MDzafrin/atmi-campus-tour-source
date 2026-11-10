@@ -32,8 +32,8 @@ const FACILITIES: {
     desc: "facilities.3.desc",
   },
   {
-    img: IMG.facilityDorm,
-    alt: "Gedung asrama mahasiswa ATMI (Xaverius Dorm)",
+    img: IMG.facilityars,
+    alt: "Produk hasil karya mahasiswa Politeknik Industri ATMI Cikarang",
     title: "facilities.4.title",
     desc: "facilities.4.desc",
   },

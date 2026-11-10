@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import { format } from "date-fns";
 import { enUS, id as idLocale } from "date-fns/locale";
 import {
@@ -28,17 +27,21 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
-import { Reveal } from "./reveal";
-import { SectionHeading } from "./section-heading";
 import { useLang } from "@/lib/i18n";
 import { useTourStore, type TourType } from "@/lib/tour-store";
 import { useSiteConfig } from "@/lib/use-site-config";
-import { IMG } from "@/lib/images";
 import { cn } from "@/lib/utils";
 
 interface FormState {
@@ -51,6 +54,7 @@ interface FormState {
   email: string;
   phone: string;
   notes: string;
+  companion: string; // id pendamping terpilih, kosong = tidak memilih
   agree: boolean;
 }
 
@@ -64,6 +68,7 @@ const INITIAL: FormState = {
   email: "",
   phone: "",
   notes: "",
+  companion: "",
   agree: false,
 };
 
@@ -82,7 +87,9 @@ export function Reservation() {
   const { toast } = useToast();
   const { config } = useSiteConfig();
   const storeTourType = useTourStore((s) => s.tourType);
-  const setStoreTourType = useTourStore((s) => s.setTourType);
+  const setStoreTourType = useTourStore((s) => s.setDefaultTourType);
+  const locked = useTourStore((s) => s.locked);
+  const unlock = useTourStore((s) => s.unlock);
 
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormState>(INITIAL);
@@ -90,6 +97,26 @@ export function Reservation() {
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState<string | null>(null); // email pendaftar
   const [calOpen, setCalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  // Buka pop-up setiap ada link ke #reservasi (tombol di hero, navbar, dan kartu program)
+  useEffect(() => {
+    const check = () => {
+      if (window.location.hash === "#reservasi") setOpen(true);
+    };
+    check();
+    window.addEventListener("hashchange", check);
+    return () => window.removeEventListener("hashchange", check);
+  }, []);
+
+  const handleOpenChange = (value: boolean) => {
+    setOpen(value);
+    if (!value) unlock();
+    if (!value && window.location.hash === "#reservasi") {
+      // Hapus hash supaya klik berikutnya di tombol yang sama bisa membuka pop-up lagi
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  };
 
   const programs = config?.programs ?? [];
   const settings = config?.settings ?? null;
@@ -211,6 +238,7 @@ export function Reservation() {
           email: form.email.trim(),
           phone: form.phone.trim(),
           notes: form.notes.trim() || null,
+          companionId: pickedCompanion?.id ?? null,
         }),
       });
       const data = (await res.json()) as {
@@ -226,7 +254,9 @@ export function Reservation() {
               ? t("res.err.date")
               : data.error === "SLOT_INVALID"
                 ? t("res.err.slot")
-                : t("res.err.submit");
+                : data.error === "COMPANION_INVALID"
+                  ? t("res.err.companion")
+                  : t("res.err.submit");
         toast({
           title: t("res.err.submit"),
           description: desc,
@@ -250,7 +280,7 @@ export function Reservation() {
   };
 
   const reset = () => {
-    setForm(INITIAL);
+    setForm({ ...INITIAL, tourType: storeTourType });
     setStep(1);
     setDone(null);
   };
@@ -268,68 +298,23 @@ export function Reservation() {
       : selectedProgram.nameId
     : "—";
 
+  // Pendamping = anggota aktif dari bagian milik program terpilih. Kalau program diganti,
+  // pilihan lama otomatis tidak berlaku karena id-nya tidak ada di daftar program baru.
+  const companions = selectedProgram?.companions ?? [];
+  const pickedCompanion = companions.find((c) => c.id === form.companion) ?? null;
+  const companionName = pickedCompanion?.name ?? "";
+
   return (
-    <section id="reservasi" className="bg-atmi-sand/60 py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-4 md:px-6">
-        <SectionHeading
-          kicker="res.kicker"
-          title={t("res.title")}
-          subtitle={t("res.subtitle")}
-        />
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="max-h-[92vh] w-[calc(100%-1.5rem)] max-w-3xl overflow-y-auto rounded-2xl bg-card p-0 sm:max-w-3xl">
+        <DialogHeader className="px-6 pt-6 pr-12 text-left md:px-8 md:pt-8">
+          <DialogTitle className="text-2xl font-extrabold text-atmi-navy">
+            {t("res.title")}
+          </DialogTitle>
+          <DialogDescription>{t("res.subtitle")}</DialogDescription>
+        </DialogHeader>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-5">
-          {/* Info panel */}
-          <Reveal className="lg:col-span-2">
-            <div className="relative h-full overflow-hidden rounded-2xl bg-atmi-navy p-8 text-white shadow-xl">
-              <Image
-                src={IMG.location}
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover opacity-15"
-                aria-hidden="true"
-              />
-              <div className="relative">
-                <h3 className="text-xl font-extrabold">
-                  {t("res.info.title")}
-                </h3>
-                <ul className="mt-5 space-y-3.5">
-                  {(["res.info.1", "res.info.2", "res.info.3", "res.info.4"] as const).map(
-                    (k) => (
-                      <li key={k} className="flex items-start gap-3 text-sm text-white/85">
-                        <BadgeCheck
-                          className="mt-0.5 h-4.5 w-4.5 shrink-0 text-atmi-gold"
-                          aria-hidden="true"
-                        />
-                        {t(k)}
-                      </li>
-                    ),
-                  )}
-                </ul>
-
-                <div className="mt-8 rounded-xl border border-white/15 bg-white/5 p-5 backdrop-blur">
-                  <p className="text-xs font-semibold tracking-wide text-white/70 uppercase">
-                    {t("res.info.contact")}
-                  </p>
-                  <a
-                    href="tel:+6281288331700"
-                    className="mt-2 flex items-center gap-2.5 text-lg font-bold transition-colors hover:text-atmi-gold"
-                  >
-                    <Phone className="h-5 w-5 text-atmi-gold" aria-hidden="true" />
-                    0812 8833 1700
-                  </a>
-                  <p className="mt-1.5 flex items-center gap-2.5 text-sm text-white/75">
-                    <Clock className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    {t("loc.hours.value")}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-
-          {/* Form panel */}
-          <Reveal delay={0.1} className="lg:col-span-3">
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-xl md:p-8">
+        <div className="p-6 pt-2 md:p-8 md:pt-2">
               {done !== null ? (
                 <SuccessPanel
                   email={done}
@@ -421,6 +406,36 @@ export function Reservation() {
                           <div className="mt-3 grid gap-3 sm:grid-cols-2">
                             <Skeleton className="h-20 rounded-xl" />
                             <Skeleton className="h-20 rounded-xl" />
+                          </div>
+                        ) : locked && selectedProgram ? (
+                          <div className="mt-3">
+                            <div className="flex items-start gap-3 rounded-xl border border-atmi-red bg-atmi-red/5 p-4 shadow-sm">
+                              <GraduationCap
+                                className="mt-0.5 h-5 w-5 shrink-0 text-atmi-red"
+                                aria-hidden="true"
+                              />
+                              <span className="text-sm font-semibold text-foreground">
+                                {programName}
+                                <span className="mt-1 block text-xs font-normal text-muted-foreground">
+                                  {selectedProgram.highlight
+                                    ? "★ Populer"
+                                    : t("tours.meta.durationTpl").replace(
+                                        "{h}",
+                                        (selectedProgram.durationMin / 60).toLocaleString(
+                                          lang === "en" ? "en-US" : "id-ID",
+                                          { maximumFractionDigits: 2 },
+                                        ),
+                                      )}
+                                </span>
+                              </span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={unlock}
+                              className="mt-2 text-xs font-semibold text-atmi-navy underline-offset-2 hover:underline"
+                            >
+                              {lang === "en" ? "Choose another program" : "Pilih program lain"}
+                            </button>
                           </div>
                         ) : (
                           <RadioGroup
@@ -644,6 +659,56 @@ export function Reservation() {
                           />
                         </div>
                       </Field>
+                      {companions.length > 0 ? (
+                        <div className="sm:col-span-2">
+                          <Label className="text-sm font-bold text-atmi-navy">
+                            {t("res.companion.title")}
+                          </Label>
+                          <p className="mt-1 text-xs text-muted-foreground">
+                            {t("res.companion.hint").replace(
+                              "{dept}",
+                              selectedProgram?.departmentName ?? "",
+                            )}
+                          </p>
+                          <div
+                            role="radiogroup"
+                            aria-label={t("res.companion.title")}
+                            className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
+                          >
+                            {companions.map((c) => {
+                              const active = form.companion === c.id;
+                              return (
+                                <button
+                                  key={c.id}
+                                  type="button"
+                                  role="radio"
+                                  aria-checked={active}
+                                  onClick={() => set("companion", active ? "" : c.id)}
+                                  className={cn(
+                                    "flex items-center justify-between gap-3 rounded-xl border p-4 text-left text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-atmi-navy focus-visible:outline-none",
+                                    active
+                                      ? "border-atmi-red bg-atmi-red/5 text-foreground shadow-sm"
+                                      : "border-border text-foreground hover:border-atmi-navy/40",
+                                  )}
+                                >
+                                  <span>{c.name}</span>
+                                  <span
+                                    className={cn(
+                                      "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border",
+                                      active
+                                        ? "border-atmi-red bg-atmi-red text-white"
+                                        : "border-atmi-navy/30",
+                                    )}
+                                    aria-hidden="true"
+                                  >
+                                    {active ? <Check className="h-3.5 w-3.5" /> : null}
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : null}
                       <Field
                         id="notes"
                         label={t("res.notes")}
@@ -707,6 +772,13 @@ export function Reservation() {
                           label={t("res.summary.contact")}
                           value={`${form.email || "-"} · ${form.phone || "-"}`}
                         />
+                        {companionName ? (
+                          <SummaryRow
+                            icon={Users}
+                            label={t("res.companion.summary")}
+                            value={companionName}
+                          />
+                        ) : null}
                       </dl>
 
                       {form.notes ? (
@@ -786,10 +858,8 @@ export function Reservation() {
                 </>
               )}
             </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
+      </DialogContent>
+    </Dialog>
   );
 }
 

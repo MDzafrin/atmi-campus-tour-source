@@ -22,11 +22,12 @@ export function About() {
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-14">
+
           {/* Gambar pertama */}
           <Reveal className="relative">
             <div className="relative overflow-hidden rounded-2xl shadow-xl">
               <Image
-                src={IMG.about}
+                src={IMG.about1}
                 alt="Gedung kampus Politeknik Industri ATMI Cikarang"
                 width={1200}
                 height={800}
@@ -52,7 +53,7 @@ export function About() {
           <Reveal delay={0.1} className="relative">
             <div className="relative overflow-hidden rounded-2xl shadow-xl">
               <Image
-                src={IMG.about}
+                src={IMG.about2}
                 alt="Deskripsi foto kedua"
                 width={1200}
                 height={800}

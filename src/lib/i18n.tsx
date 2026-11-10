@@ -96,9 +96,9 @@ const id = {
   "facilities.3.title": "Lab Mekatronika & Robotika",
   "facilities.3.desc":
     "PLC, pneumatik-hidrolik, hingga robot arm industri untuk program Sarjana Terapan Teknologi Rekayasa Mekatronika.",
-  "facilities.4.title": "Asrama Mahasiswa",
+  "facilities.4.title": "Workshop ATMI Recycle Studio",
   "facilities.4.desc":
-    "Dormitory wajib tahun pertama yang menumbuhkan kedisiplinan, kemandirian, dan solidaritas antar angkatan.",
+    "Fasilitas edukasi daur ulang yang mendorong kesadaran lingkungan, penerapan ekonomi sirkular, dan inovasi melalui praktik langsung pengelolaan sampah plastik di ATMI Recycle Studio.",
 
   "res.kicker": "Reservasi Tur",
   "res.title": "Jadwalkan Kunjunganmu ke ATMI",
@@ -124,6 +124,13 @@ const id = {
   "res.emailPlaceholder": "nama@lembaga.sch.id",
   "res.phone": "No. WhatsApp / Telepon",
   "res.phonePlaceholder": "08xxxxxxxxxx",
+
+  "res.companion.title": "Pilih Pendamping (opsional)",
+  "res.companion.hint": "Pendamping dari bagian {dept}. Klik lagi untuk membatalkan. Kalau tidak memilih, tim kami yang menentukan.",
+  "res.companion.summary": "Pendamping",
+  "res.err.companion": "Pendamping yang dipilih sudah tidak tersedia. Muat ulang halaman lalu coba lagi.",
+
+
   "res.notes": "Catatan (opsional)",
   "res.notesPlaceholder":
     "Kebutuhan khusus, jumlah bus, atau fokus kunjungan yang diinginkan",
@@ -167,6 +174,8 @@ const id = {
   "res.info.3": "Gratis untuk sekolah dan lembaga pendidikan",
   "res.info.4": "Bisa request fokus kunjungan sesuai kebutuhan",
   "res.info.contact": "Butuh bantuan? Hubungi Marketing:",
+
+  
 
   // "testi.kicker": "Testimoni",
   // "testi.title": "Kata Mereka yang Tumbuh di ATMI",
@@ -318,9 +327,9 @@ const en: Record<DictKey, string> = {
   "facilities.3.title": "Mechatronics & Robotics Lab",
   "facilities.3.desc":
     "PLC, pneumatics-hydraulics, and industrial robot arms for the Applied Bachelor of Mechatronics Engineering Technology.",
-  "facilities.4.title": "Student Dormitory",
+  "facilities.4.title": "Workshop ATMI Recycle Studio",
   "facilities.4.desc":
-    "Mandatory first-year dormitory that grows discipline, independence, and cross-cohort solidarity.",
+    "An educational recycling facility that promotes environmental awareness, circular economy practices, and innovation through hands-on plastic waste management at ATMI Recycle Studio.",
 
   "res.kicker": "Tour Reservation",
   "res.title": "Schedule Your Visit to ATMI",
@@ -346,6 +355,12 @@ const en: Record<DictKey, string> = {
   "res.emailPlaceholder": "name@institution.sch.id",
   "res.phone": "WhatsApp / Phone Number",
   "res.phonePlaceholder": "08xxxxxxxxxx",
+
+  "res.companion.title": "Choose a Guide (optional)",
+  "res.companion.hint": "Guides from the {dept} team. Click again to clear. If you skip this, our team will assign one.",
+  "res.companion.summary": "Guide",
+  "res.err.companion": "The selected guide is no longer available. Please reload the page and try again.",
+
   "res.notes": "Notes (optional)",
   "res.notesPlaceholder":
     "Special needs, number of buses, or the desired focus of the visit",
@@ -390,6 +405,13 @@ const en: Record<DictKey, string> = {
   "res.info.3": "Free for schools and educational institutions",
   "res.info.4": "You can request a visit focus that fits your needs",
   "res.info.contact": "Need help? Contact Marketing:",
+
+  "res.companion.title": "Choose a Guide (optional)",
+  "res.companion.hint": "Click the selected guide again to clear your choice.",
+  "res.companion.summary": "Guide",
+  "res.companion.1.name": "Guide 1 Name",
+  "res.companion.2.name": "Guide 2 Name",
+  "res.companion.3.name": "Guide 3 Name",
 
   "testi.kicker": "Testimonials",
   "testi.title": "What Those Who Grew at ATMI Say",

@@ -29,6 +29,16 @@ export interface ProgramDTO {
   durationMin: number;
   capacityMax: number;
   imageUrl: string;
+  departmentId: string | null;
+  /** nama bagian pendamping (kosong kalau program belum punya bagian) */
+  departmentName: string;
+  /** pendamping AKTIF dari bagian program ini, siap ditampilkan di form */
+  companions: CompanionDTO[];
+}
+
+export interface CompanionDTO {
+  id: string;
+  name: string;
 }
 
 const splitLines = (s: string): string[] =>
@@ -82,6 +92,57 @@ const DEFAULT_PROGRAMS = [
   },
 ];
 
+/**
+ * Bagian pendamping awal. Dibuat SEKALI saja (saat tabel Department masih kosong),
+ * lalu dihubungkan ke program yang sudah ada. Nama anggota di bawah hanya contoh,
+ * ganti lewat Table Editor Supabase sampai halaman dashboard-nya jadi.
+ */
+const DEFAULT_DEPARTMENTS = [
+  {
+    name: "Marketing",
+    sortOrder: 1,
+    members: ["Pendamping Marketing 1", "Pendamping Marketing 2"],
+    matches: (slug: string) => slug === "student",
+  },
+  {
+    name: "Produksi",
+    sortOrder: 2,
+    members: ["Pendamping Produksi 1", "Pendamping Produksi 2"],
+    matches: (slug: string) => slug === "general",
+  },
+  {
+    name: "Recycle",
+    sortOrder: 3,
+    members: ["Pendamping Recycle 1", "Pendamping Recycle 2"],
+    matches: (slug: string) => slug.includes("recycle"),
+  },
+];
+
+async function seedDepartments(): Promise<void> {
+  if ((await db.department.count()) > 0) return;
+  const programs = await db.tourProgram.findMany({
+    select: { id: true, slug: true },
+  });
+  for (const d of DEFAULT_DEPARTMENTS) {
+    const dept = await db.department.create({
+      data: {
+        name: d.name,
+        sortOrder: d.sortOrder,
+        members: {
+          create: d.members.map((name, i) => ({ name, sortOrder: i + 1 })),
+        },
+      },
+    });
+    const ids = programs.filter((p) => d.matches(p.slug)).map((p) => p.id);
+    if (ids.length > 0) {
+      await db.tourProgram.updateMany({
+        where: { id: { in: ids }, departmentId: null },
+        data: { departmentId: dept.id },
+      });
+    }
+  }
+}
+
 /** Tanggal buka default: 30 hari kerja (Senin–Jumat) ke depan, skip Sabtu/Minggu. */
 function defaultOpenDates(): string[] {
   const dates: string[] = [];
@@ -123,6 +184,10 @@ export async function ensureSeed(): Promise<void> {
           await db.tourProgram.create({ data: p });
         }
       }
+      // Gagal di sini tidak boleh merobohkan situs; pilihan pendamping saja yang kosong.
+      await seedDepartments().catch((e) => {
+        console.error("[seed departemen] gagal:", e);
+      });
     })().catch((e) => {
       seeded = null; // boleh dicoba lagi
       throw e;
@@ -159,6 +224,12 @@ export function toProgramDTO(p: {
   durationMin: number;
   capacityMax: number;
   imageUrl: string;
+  departmentId?: string | null;
+  department?: {
+    name: string;
+    active: boolean;
+    members: { id: string; name: string; active: boolean }[];
+  } | null;
 }): ProgramDTO {
   return {
     id: p.id,
@@ -175,6 +246,14 @@ export function toProgramDTO(p: {
     durationMin: p.durationMin,
     capacityMax: p.capacityMax,
     imageUrl: p.imageUrl,
+    departmentId: p.departmentId ?? null,
+    departmentName: p.department?.name ?? "",
+    companions:
+      p.department && p.department.active
+        ? p.department.members
+            .filter((m) => m.active)
+            .map((m) => ({ id: m.id, name: m.name }))
+        : [],
   };
 }
 
@@ -183,6 +262,16 @@ export async function getActivePrograms(): Promise<ProgramDTO[]> {
   const rows = await db.tourProgram.findMany({
     where: { active: true },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+    include: {
+      department: {
+        include: {
+          members: {
+            where: { active: true },
+            orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+          },
+        },
+      },
+    },
   });
   return rows.map(toProgramDTO);
 }
