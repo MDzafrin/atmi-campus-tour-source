@@ -12,6 +12,7 @@ export interface CardPdfData {
   email: string;
   phone: string;
   programName: string;
+  companionName?: string;
   participants: number;
   date: string; // yyyy-MM-dd
   slot: string; // "09:00-11:00"
@@ -46,6 +47,9 @@ function fmtDateTime(d: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${pad(d.getDate())} ${MONTHS[d.getMonth()]} ${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())} WIB`;
 }
+
+/** Font standar PDF hanya mengenal karakter Latin-1; karakter lain diganti "?" agar PDF tidak gagal dibuat. */
+const latin1 = (s: string) => s.replace(/[^\x20-\x7E\xA0-\xFF]/g, "?");
 
 /** Efek letter-spacing manual: sisipkan spasi antar karakter. */
 const track = (s: string) => s.split("").join(" ");
@@ -131,6 +135,7 @@ export async function buildReservationCardPdf(d: CardPdfData): Promise<Uint8Arra
 
   const rows: [string, string][] = [
     ["Program", d.programName],
+    ...(d.companionName ? [["Pendamping", latin1(d.companionName)] as [string, string]] : []),
     ["Tanggal Kunjungan", fmtDate(d.date)],
     ["Sesi", `${d.slot.replace("-", " - ")} WIB`],
     ["Jumlah Peserta", `${d.participants} orang`],

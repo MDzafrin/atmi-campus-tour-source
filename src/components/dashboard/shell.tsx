@@ -10,6 +10,7 @@ import {
   LogOut,
   Menu,
   Settings2,
+  UserCheck,
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ const NAV = [
   { href: "/admin-atmi", label: "Data Reservasi", icon: Users },
   { href: "/admin-atmi/pengaturan", label: "Pengaturan Formulir", icon: Settings2 },
   { href: "/admin-atmi/program", label: "Program Visit", icon: GraduationCap },
+  { href: "/admin-atmi/pendamping", label: "Pendamping", icon: UserCheck },
 ];
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {

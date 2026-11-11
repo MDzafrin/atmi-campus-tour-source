@@ -406,14 +406,9 @@ const en: Record<DictKey, string> = {
   "res.info.4": "You can request a visit focus that fits your needs",
   "res.info.contact": "Need help? Contact Marketing:",
 
-  "res.companion.title": "Choose a Guide (optional)",
-  "res.companion.hint": "Click the selected guide again to clear your choice.",
-  "res.companion.summary": "Guide",
-  "res.companion.1.name": "Guide 1 Name",
-  "res.companion.2.name": "Guide 2 Name",
-  "res.companion.3.name": "Guide 3 Name",
 
-  "testi.kicker": "Testimonials",
+
+  
   "testi.title": "What Those Who Grew at ATMI Say",
   "testi.subtitle":
     "Studying at ATMI is more than theory — here are real experiences of alumni now active in the industry.",

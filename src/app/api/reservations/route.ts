@@ -120,6 +120,7 @@ export async function POST(req: Request) {
       email: reservation.email,
       phone: reservation.phone,
       programName: reservation.programName,
+      companionName: reservation.companionName,
       participants: reservation.participants,
       date: reservation.date,
       slot: reservation.timeSlot,

@@ -12,6 +12,7 @@ export interface AdminNotifyData {
   email: string;
   phone: string;
   programName: string;
+  companionName?: string;
   participants: number;
   date: string; // yyyy-MM-dd
   slot: string;
@@ -22,6 +23,7 @@ export interface CardEmailData {
   name: string;
   code: string;
   programName: string;
+  companionName?: string;
   participants: number;
   date: string; // yyyy-MM-dd
   slot: string;
@@ -83,6 +85,13 @@ const shell = (inner: string, badge = "NOTIFIKASI ADMIN") => `<!DOCTYPE html>
 </body>
 </html>`;
 
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** Baris "Pendamping" hanya muncul kalau pendaftar memilih pendamping. */
+const companionRow = (name?: string): [string, string][] =>
+  name ? [["Pendamping", escapeHtml(name)]] : [];
+
 const detailTable = (rows: [string, string][]) => {
   const row = (label: string, value: string) => `
       <tr>
@@ -117,6 +126,7 @@ export function buildAdminNotifyEmail(d: AdminNotifyData): string {
         ["Pemohon", d.name],
         ["Institusi", d.institution],
         ["Program", d.programName],
+        ...companionRow(d.companionName),
         ["Tanggal", fmtDate(d.date)],
         ["Sesi", fmtSlot(d.slot)],
         ["Peserta", `${d.participants} orang`],
@@ -159,6 +169,7 @@ export function buildCardEmail(d: CardEmailData): string {
       <div style="font-size:26px;font-weight:bold;color:#ce2029;letter-spacing:2px;font-family:Courier New,monospace;text-align:center;margin-top:6px;">${d.code}</div>
       <div style="margin-top:12px;">${detailTable([
         ["Program", d.programName],
+        ...companionRow(d.companionName),
         ["Tanggal", fmtDate(d.date)],
         ["Sesi", fmtSlot(d.slot)],
         ["Peserta", `${d.participants} orang`],

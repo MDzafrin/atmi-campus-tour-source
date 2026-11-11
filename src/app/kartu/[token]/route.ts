@@ -35,6 +35,7 @@ export async function GET(
     email: reservation.email,
     phone: reservation.phone,
     programName: reservation.programName,
+    companionName: reservation.companionName,
     participants: reservation.participants,
     date: reservation.date,
     slot: reservation.timeSlot,

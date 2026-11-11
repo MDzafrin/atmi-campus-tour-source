@@ -13,6 +13,7 @@ import {
   RefreshCw,
   Search,
   Trash2,
+  UserCheck,
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -51,6 +52,7 @@ interface ReservationRow {
   email: string;
   phone: string;
   notes: string | null;
+  companionName?: string;
   status: string;
   verifiedAt: string | null;
   createdAt: string;
@@ -129,7 +131,7 @@ export function ReservationsView() {
     const q = search.trim().toLowerCase();
     if (q) {
       list = list.filter((r) =>
-        [r.code, r.name, r.institution, r.email, r.phone]
+        [r.code, r.name, r.institution, r.email, r.phone, r.companionName ?? ""]
           .join(" ")
           .toLowerCase()
           .includes(q),
@@ -324,6 +326,12 @@ export function ReservationsView() {
                     </td>
                     <td className="px-4 py-3 text-xs font-semibold text-foreground">
                       {r.programName || r.tourType}
+                      {r.companionName ? (
+                        <span className="mt-1 flex items-center gap-1.5 font-normal text-muted-foreground">
+                          <UserCheck className="h-3.5 w-3.5 shrink-0 text-atmi-red" aria-hidden="true" />
+                          {r.companionName}
+                        </span>
+                      ) : null}
                     </td>
                     <td className="px-4 py-3 text-xs">
                       <span className="flex items-center gap-1.5 font-semibold text-foreground">
