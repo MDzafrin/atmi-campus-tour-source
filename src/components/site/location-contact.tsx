@@ -91,7 +91,7 @@ export function LocationContact() {
               <div className="mt-auto grid gap-3 sm:grid-cols-2">
                 <Button
                   asChild
-                  className="h-11 bg-atmi-blue font-bold text-white hover:bg-atmi-gold"
+                  variant="outline" className="h-11 bg-white font-bold text-atmi-navy hover:border-atmi-green-wa hover:bg-atmi-green-wa"
                 >
                   <a
                     href="https://wa.me/6281288331700?text=Halo%20ATMI%2C%20saya%20ingin%20reservasi%20Campus%20Tour"

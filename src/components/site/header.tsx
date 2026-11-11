@@ -109,7 +109,7 @@ export function Header() {
               asChild
               className="hidden bg-atmi-blue font-bold text-white hover:bg-atmi-gold sm:inline-flex"
             >
-              <a href="#reservasi">
+              <a href="#program-tur">
                 <CalendarCheck className="h-4 w-4" />
                 {t("nav.reserve")}
               </a>

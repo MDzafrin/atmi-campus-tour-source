@@ -55,7 +55,7 @@ export function Hero() {
               {t("hero.subtitle")}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Button
+              {/* <Button
                 asChild
                 size="lg"
                 className="bg-atmi-blue text-base font-bold text-white shadow-lg shadow-atmi-blue/30 hover:bg-atmi-gold"
@@ -64,7 +64,7 @@ export function Hero() {
                   <CalendarCheck className="h-5 w-5" />
                   {t("hero.ctaReserve")}
                 </a>
-              </Button>
+              </Button> */}
               <Button
                 asChild
                 size="lg"

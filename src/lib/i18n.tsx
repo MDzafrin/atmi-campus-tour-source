@@ -28,7 +28,7 @@ const id = {
   "hero.title1": "Jelajahi Bagaimana ATMI Mengubah",
   "hero.title2": "Potensi Menjadi Kompetensi",
   "hero.subtitle":
-    "Kunjungi kampus vokasi industri Katolik di jantung kawasan Jababeka. Rasakan langsung sistem PBET: 67% praktik produksi, satu mahasiswa satu mesin, dan budaya kerja industri yang nyata.",
+    "Kunjungi kampus vokasi industri di jantung kawasan Jababeka. Rasakan langsung sistem Production Base Education and Training (PBET), satu mahasiswa satu mesin, dan budaya kerja industri yang nyata.",
   "hero.ctaReserve": "Reservasi Sekarang",
   "hero.ctaPrograms": "Lihat Program Tur",
   "hero.scroll": "Gulir untuk menjelajah",
@@ -61,7 +61,7 @@ const id = {
   "tours.kicker": "Program Tur",
   "tours.title": "Pilih Tur Sesuai Kelompokmu",
   "tours.subtitle":
-    "Setiap tur dipandu staf dan mahasiswa ATMI. Kuota 10–30 peserta per sesi agar pengalaman tetap personal dan mendalam.",
+    "Setiap tur dipandu staf dan mahasiswa ATMI.",
   "tours.general.name": "General Course Tour",
   "tours.general.audience":
     "Untuk umum, instansi, komunitas, serta mitra industri yang ingin mengenal ATMI dan sistem pendidikan produksinya.",
@@ -259,7 +259,7 @@ const en: Record<DictKey, string> = {
   "hero.title1": "Explore How ATMI Turns",
   "hero.title2": "Potential into Competence",
   "hero.subtitle":
-    "Visit the Catholic industrial polytechnic in the heart of Jababeka. Experience the PBET system first-hand: 67% production practice, one student one machine, and a real industrial work culture.",
+    "Visit an industrial vocational campus in the heart of the Jababeka industrial area. Experience the Production-Based Education and Training (PBET) system firsthand, featuring one student per machine and an authentic industrial work culture.",
   "hero.ctaReserve": "Book Your Tour",
   "hero.ctaPrograms": "View Tour Programs",
   "hero.scroll": "Scroll to explore",
@@ -292,7 +292,7 @@ const en: Record<DictKey, string> = {
   "tours.kicker": "Tour Programs",
   "tours.title": "Choose the Tour That Fits Your Group",
   "tours.subtitle":
-    "Every tour is guided by ATMI staff and students. Capacity of 10–30 participants per session keeps the experience personal and in-depth.",
+    "Every tour is guided by ATMI staff and students.",
   "tours.general.name": "General Course Tour",
   "tours.general.audience":
     "For the general public, institutions, communities, and industry partners who want to know ATMI and its production-based education.",
