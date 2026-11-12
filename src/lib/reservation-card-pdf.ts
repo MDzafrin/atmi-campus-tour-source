@@ -157,61 +157,61 @@ export async function buildReservationCardPdf(d: CardPdfData): Promise<Uint8Arra
   }
 
   // ===== Kotak cap & tanda tangan satpam =====
-  y -= 34;
-  page.drawText(track("UNTUK PETUGAS KEAMANAN (SATPAM) PADA HARI KUNJUNGAN"), {
-    x: M, y, size: 9, font: bold, color: NAVY,
-  });
+  // y -= 34;
+  // page.drawText(track("UNTUK PETUGAS KEAMANAN (SATPAM) PADA HARI KUNJUNGAN"), {
+  //   x: M, y, size: 9, font: bold, color: NAVY,
+  // });
 
-  y -= 16;
-  const boxH = 150;
-  page.drawRectangle({
-    x: M, y: y - boxH, width: W - 2 * M, height: boxH,
-    borderColor: NAVY, borderWidth: 1.5, color: WHITE,
-  });
+  // y -= 16;
+  // const boxH = 150;
+  // page.drawRectangle({
+  //   x: M, y: y - boxH, width: W - 2 * M, height: boxH,
+  //   borderColor: NAVY, borderWidth: 1.5, color: WHITE,
+  // });
 
-  // Kolom kiri: isian petugas
-  const inner = M + 18;
-  let sy = y - 30;
-  page.drawText("Nama Petugas Penerima:", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
-  page.drawLine({
-    start: { x: inner + 150, y: sy - 2 }, end: { x: W - M - 170, y: sy - 2 },
-    thickness: 0.8, color: GRAY,
-  });
-  sy -= 26;
-  page.drawText("Instansi / Sekolah Pengantar:", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
-  page.drawLine({
-    start: { x: inner + 150, y: sy - 2 }, end: { x: W - M - 170, y: sy - 2 },
-    thickness: 0.8, color: GRAY,
-  });
-  sy -= 26;
-  page.drawText("Jumlah peserta hadir:", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
-  page.drawText("................... orang", {
-    x: inner + 150, y: sy, size: 9.5, font: reg, color: GRAY,
-  });
-  sy -= 26;
-  page.drawText("Keterangan (bila ada):", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
-  page.drawLine({
-    start: { x: inner + 150, y: sy - 2 }, end: { x: W - M - 170, y: sy - 2 },
-    thickness: 0.8, color: GRAY,
-  });
+  // // Kolom kiri: isian petugas
+  // const inner = M + 18;
+  // let sy = y - 30;
+  // page.drawText("Nama Petugas Penerima:", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
+  // page.drawLine({
+  //   start: { x: inner + 150, y: sy - 2 }, end: { x: W - M - 170, y: sy - 2 },
+  //   thickness: 0.8, color: GRAY,
+  // });
+  // sy -= 26;
+  // page.drawText("Instansi / Sekolah Pengantar:", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
+  // page.drawLine({
+  //   start: { x: inner + 150, y: sy - 2 }, end: { x: W - M - 170, y: sy - 2 },
+  //   thickness: 0.8, color: GRAY,
+  // });
+  // sy -= 26;
+  // page.drawText("Jumlah peserta hadir:", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
+  // page.drawText("................... orang", {
+  //   x: inner + 150, y: sy, size: 9.5, font: reg, color: GRAY,
+  // });
+  // sy -= 26;
+  // page.drawText("Keterangan (bila ada):", { x: inner, y: sy, size: 9.5, font: bold, color: DARK });
+  // page.drawLine({
+  //   start: { x: inner + 150, y: sy - 2 }, end: { x: W - M - 170, y: sy - 2 },
+  //   thickness: 0.8, color: GRAY,
+  // });
 
-  // Kotak kanan: cap & tanda tangan
-  const signW = 140;
-  const signX = W - M - signW - 14;
-  page.drawRectangle({
-    x: signX, y: y - boxH + 14, width: signW, height: boxH - 28,
-    borderColor: GOLD, borderWidth: 1.2, color: CREAM,
-  });
-  const capLabel1 = "CAP / STEMPEL &";
-  const capLabel2 = "TANDA TANGAN";
-  page.drawText(capLabel1, {
-    x: signX + (signW - bold.widthOfTextAtSize(capLabel1, 9)) / 2, y: y - 38,
-    size: 9, font: bold, color: GRAY,
-  });
-  page.drawText(capLabel2, {
-    x: signX + (signW - bold.widthOfTextAtSize(capLabel2, 9)) / 2, y: y - 50,
-    size: 9, font: bold, color: GRAY,
-  });
+  // // Kotak kanan: cap & tanda tangan
+  // const signW = 140;
+  // const signX = W - M - signW - 14;
+  // page.drawRectangle({
+  //   x: signX, y: y - boxH + 14, width: signW, height: boxH - 28,
+  //   borderColor: GOLD, borderWidth: 1.2, color: CREAM,
+  // });
+  // const capLabel1 = "CAP / STEMPEL &";
+  // const capLabel2 = "TANDA TANGAN";
+  // page.drawText(capLabel1, {
+  //   x: signX + (signW - bold.widthOfTextAtSize(capLabel1, 9)) / 2, y: y - 38,
+  //   size: 9, font: bold, color: GRAY,
+  // });
+  // page.drawText(capLabel2, {
+  //   x: signX + (signW - bold.widthOfTextAtSize(capLabel2, 9)) / 2, y: y - 50,
+  //   size: 9, font: bold, color: GRAY,
+  // });
 
   // Catatan bawah kotak
   page.drawText(
