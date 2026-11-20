@@ -213,11 +213,11 @@ export async function buildReservationCardPdf(d: CardPdfData): Promise<Uint8Arra
   //   size: 9, font: bold, color: GRAY,
   // });
 
-  // Catatan bawah kotak
-  page.drawText(
-    "Petugas diminta memverifikasi kehadiran rombongan, memberi cap & tanda tangan pada kotak di atas.",
-    { x: M, y: y - boxH - 14, size: 8, font: reg, color: GRAY },
-  );
+  // Catatan bawah kotak (dimatikan bersama kotak petugas)
+  // page.drawText(
+  //   "Petugas diminta memverifikasi kehadiran rombongan, memberi cap & tanda tangan pada kotak di atas.",
+  //   { x: M, y: y - boxH - 14, size: 8, font: reg, color: GRAY },
+  // );
 
   // ===== Footer =====
   const footH = 64;
@@ -226,8 +226,8 @@ export async function buildReservationCardPdf(d: CardPdfData): Promise<Uint8Arra
     x: (W - reg.widthOfTextAtSize("Politeknik Industri ATMI Cikarang - Jababeka Education Park, Cikarang Baru, Bekasi 17520", 9)) / 2,
     y: 34, size: 9, font: reg, color: rgb(0.85, 0.88, 1),
   });
-  page.drawText("Competentia  |  Conscientia  |  Compassio", {
-    x: (W - bold.widthOfTextAtSize("Competentia  |  Conscientia  |  Compassio", 9)) / 2,
+  page.drawText("Competence  |  Conscience  |  Compassion  |  Commitment  |  Leadership", {
+    x: (W - bold.widthOfTextAtSize("Competence  |  Conscience  |  Compassion  |  Commitment  |  Leadership", 9)) / 2,
     y: 18, size: 9, font: bold, color: GOLD,
   });
 

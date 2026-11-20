@@ -128,6 +128,9 @@ const id = {
   "res.companion.title": "Pilih Pendamping (opsional)",
   "res.companion.hint": "Pendamping dari bagian {dept}. Klik lagi untuk membatalkan. Kalau tidak memilih, tim kami yang menentukan.",
   "res.companion.summary": "Pendamping",
+  "res.companion.other.label": "Kenal orang ATMI yang tidak ada di daftar? Ketik namanya (opsional)",
+  "res.companion.other.placeholder": "Ketik nama pendamping yang Anda kenal",
+  "res.companion.other.hint": "Kalau diisi, pilihan di atas dikosongkan. Tim kami akan menyesuaikan sesuai ketersediaan.",
   "res.err.companion": "Pendamping yang dipilih sudah tidak tersedia. Muat ulang halaman lalu coba lagi.",
 
 
@@ -223,8 +226,7 @@ const id = {
   "loc.maps": "Buka di Google Maps",
   "loc.follow": "Ikuti kami",
 
-  "footer.blurb":
-    "Politeknik Industri ATMI Cikarang — kampus vokasi Katolik penghasil SDM industri unggul sejak 2003. Competentia, Conscientia, Compassio.",
+  "footer.blurb": "Competence · Conscience · Compassion · Commitment · Leadership",
   "footer.links": "Navigasi",
   "footer.contact": "Kontak",
   "footer.programs": "Program Studi",
@@ -359,6 +361,9 @@ const en: Record<DictKey, string> = {
   "res.companion.title": "Choose a Guide (optional)",
   "res.companion.hint": "Guides from the {dept} team. Click again to clear. If you skip this, our team will assign one.",
   "res.companion.summary": "Guide",
+  "res.companion.other.label": "Know someone at ATMI who isn't listed? Type their name (optional)",
+  "res.companion.other.placeholder": "Type the name of the person you know",
+  "res.companion.other.hint": "If filled in, the selection above is cleared. Our team will arrange it subject to availability.",
   "res.err.companion": "The selected guide is no longer available. Please reload the page and try again.",
 
   "res.notes": "Notes (optional)",
@@ -407,41 +412,6 @@ const en: Record<DictKey, string> = {
   "res.info.contact": "Need help? Contact Marketing:",
 
 
-
-  
-  "testi.title": "What Those Who Grew at ATMI Say",
-  "testi.subtitle":
-    "Studying at ATMI is more than theory — here are real experiences of alumni now active in the industry.",
-  "testi.1.quote":
-    "The course materials are highly relevant and connected to the industry I joined. The key is hard work and learning by doing.",
-  "testi.1.name": "Ayup Riyadi Prihantoro",
-  "testi.1.role": "CEO PT Lastika Prima Teknik — ATMI Alumnus",
-  "testi.2.quote":
-    "My experience at ATMI helped me grow in courage, care, and discipline. I still apply what I learned here in the Czech Republic.",
-  "testi.2.name": "Theo Zefanya",
-  "testi.2.role": "Skoda Transportation, Czech Republic — Class of 2021",
-  "testi.3.quote":
-    "An education that trains students to be creative and adaptive — I still feel the benefits to this day.",
-  "testi.3.name": "Agatha Evalina Christy",
-  "testi.3.role": "Young Alumna of Politeknik Industri ATMI",
-
-  "news.kicker": "Latest News",
-  "news.title": "What's On at Politeknik Industri ATMI",
-  "news.subtitle": "The latest news from campus activities and the academic community.",
-  "news.readMore": "Read more",
-  "news.1.date": "October 30, 2026",
-  "news.1.tag": "News",
-  "news.1.title":
-    "Graduation 2026: “It’s Time to Reclaim Our Legacy and Lead the Future”",
-  "news.2.date": "August 19, 2026",
-  "news.2.tag": "Campus Life",
-  "news.2.title":
-    "Arrupe Insight Ep. 8: “Work Not with Feelings, but with Professionalism”",
-  "news.3.date": "August 14, 2026",
-  "news.3.tag": "Campus Life",
-  "news.3.title":
-    "Arrupe Insight Ep. 7: “If You Don't Aim for Something, You Won't Get Anything”",
-
   "loc.kicker": "Location & Contact",
   "loc.title": "Find Us at Jababeka Education Park",
   "loc.address.label": "Campus Address",
@@ -454,8 +424,7 @@ const en: Record<DictKey, string> = {
   "loc.maps": "Open in Google Maps",
   "loc.follow": "Follow us",
 
-  "footer.blurb":
-    "Politeknik Industri ATMI Cikarang — a Catholic vocational campus producing outstanding industrial talent since 2003. Competentia, Conscientia, Compassio.",
+  "footer.blurb": "Competence · Conscience · Compassion · Commitment · Leadership",
   "footer.links": "Navigation",
   "footer.contact": "Contact",
   "footer.programs": "Study Programs",

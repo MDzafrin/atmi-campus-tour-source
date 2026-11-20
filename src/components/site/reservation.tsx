@@ -55,6 +55,7 @@ interface FormState {
   phone: string;
   notes: string;
   companion: string; // id pendamping terpilih, kosong = tidak memilih
+  companionOther: string; // nama pendamping yang diketik sendiri (tidak ada di daftar)
   agree: boolean;
 }
 
@@ -69,6 +70,7 @@ const INITIAL: FormState = {
   phone: "",
   notes: "",
   companion: "",
+  companionOther: "",
   agree: false,
 };
 
@@ -239,6 +241,7 @@ export function Reservation() {
           phone: form.phone.trim(),
           notes: form.notes.trim() || null,
           companionId: pickedCompanion?.id ?? null,
+          companionOther: pickedCompanion ? null : typedCompanion || null,
         }),
       });
       const data = (await res.json()) as {
@@ -302,7 +305,9 @@ export function Reservation() {
   // pilihan lama otomatis tidak berlaku karena id-nya tidak ada di daftar program baru.
   const companions = selectedProgram?.companions ?? [];
   const pickedCompanion = companions.find((c) => c.id === form.companion) ?? null;
-  const companionName = pickedCompanion?.name ?? "";
+  // Nama yang diketik sendiri hanya dipakai kalau tidak ada pilihan dari daftar.
+  const typedCompanion = form.companionOther.trim().replace(/\s+/g, " ");
+  const companionName = pickedCompanion?.name ?? typedCompanion;
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -683,7 +688,14 @@ export function Reservation() {
                                   type="button"
                                   role="radio"
                                   aria-checked={active}
-                                  onClick={() => set("companion", active ? "" : c.id)}
+                                  onClick={() =>
+                                    setForm((f) => ({
+                                      ...f,
+                                      companion: active ? "" : c.id,
+                                      // memilih dari daftar mengosongkan isian manual
+                                      companionOther: active ? f.companionOther : "",
+                                    }))
+                                  }
                                   className={cn(
                                     "flex items-center justify-between gap-3 rounded-xl border p-4 text-left text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-atmi-navy focus-visible:outline-none",
                                     active
@@ -709,6 +721,29 @@ export function Reservation() {
                           </div>
                         </div>
                       ) : null}
+                      <Field
+                        id="companionOther"
+                        label={t("res.companion.other.label")}
+                        className="sm:col-span-2"
+                      >
+                        <Input
+                          id="companionOther"
+                          value={form.companionOther}
+                          maxLength={80}
+                          onChange={(e) =>
+                            setForm((f) => ({
+                              ...f,
+                              companionOther: e.target.value,
+                              // mengetik nama sendiri membatalkan pilihan dari daftar
+                              companion: e.target.value ? "" : f.companion,
+                            }))
+                          }
+                          placeholder={t("res.companion.other.placeholder")}
+                        />
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {t("res.companion.other.hint")}
+                        </p>
+                      </Field>
                       <Field
                         id="notes"
                         label={t("res.notes")}

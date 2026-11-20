@@ -52,6 +52,7 @@ interface ReservationRow {
   email: string;
   phone: string;
   notes: string | null;
+  companionId?: string | null;
   companionName?: string;
   status: string;
   verifiedAt: string | null;
@@ -330,6 +331,11 @@ export function ReservationsView() {
                         <span className="mt-1 flex items-center gap-1.5 font-normal text-muted-foreground">
                           <UserCheck className="h-3.5 w-3.5 shrink-0 text-atmi-red" aria-hidden="true" />
                           {r.companionName}
+                          {!r.companionId ? (
+                            <span className="rounded bg-atmi-gold/20 px-1.5 py-0.5 text-[10px] font-semibold text-atmi-navy">
+                              diketik pengunjung
+                            </span>
+                          ) : null}
                         </span>
                       ) : null}
                     </td>

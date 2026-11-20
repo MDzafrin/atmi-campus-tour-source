@@ -74,7 +74,7 @@ const shell = (inner: string, badge = "NOTIFIKASI ADMIN") => `<!DOCTYPE html>
                 Politeknik Industri ATMI Cikarang &middot; Jababeka Education Park, Cikarang, Bekasi
               </div>
               <div style="color:#c9a227;font-size:11px;margin-top:4px;letter-spacing:1px;">
-                Competentia &middot; Conscientia &middot; Compassio
+                Competence &middot; Conscience &middot; Compassion &middot; Commitment &middot; Leadership
               </div>
             </td>
           </tr>
@@ -191,16 +191,6 @@ export function buildCardEmail(d: CardEmailData): string {
       PDF juga terlampir pada email ini. Tombol tidak berfungsi? Salin tautan ini ke browser:<br/>
       <a href="${d.cardUrl}" style="color:#17357f;word-break:break-all;">${d.cardUrl}</a>
     </p>
-
-    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;margin-top:20px;">
-      <p style="margin:0;font-size:12px;color:#92400e;line-height:1.7;">
-        <strong>Penting pada hari kunjungan:</strong><br/>
-        1. Cetak kartu PDF ini atau tampilkan dari HP saat tiba di gerbang kampus.<br/>
-        2. Tunjukkan kepada <strong>petugas keamanan (satpam)</strong> — petugas akan
-        memberi <strong>cap &amp; tanda tangan</strong> pada kotak yang tersedia di kartu.<br/>
-        3. Datang 15 menit sebelum sesi dimulai.
-      </p>
-    </div>
 
     <p style="margin:20px 0 0;font-size:12px;color:#8a8474;line-height:1.6;">
       Butuh bantuan / perubahan jadwal? WhatsApp Marketing ATMI: <strong>0812 8833 1700</strong>.

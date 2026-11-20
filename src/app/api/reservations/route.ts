@@ -16,6 +16,7 @@ const reservationSchema = z.object({
   phone: z.string().min(9).max(17),
   notes: z.string().max(500).nullable().optional(),
   companionId: z.string().max(60).nullable().optional(),
+  companionOther: z.string().max(80).nullable().optional(),
 });
 
 function buildCode() {
@@ -62,6 +63,16 @@ export async function POST(req: Request) {
       );
     }
 
+    // Nama pendamping yang diketik pengunjung (orang ATMI di luar daftar). Diabaikan kalau
+    // pengunjung sudah memilih dari daftar. Karakter kontrol dibuang, spasi dirapikan.
+    const typedCompanion = companion
+      ? ""
+      : (data.companionOther ?? "")
+          .replace(/[\u0000-\u001f\u007f]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+          .slice(0, 80);
+
     const effectiveMax = program.capacityMax || settings.maxParticipants;
     if (
       data.participants < settings.minParticipants ||
@@ -105,7 +116,7 @@ export async function POST(req: Request) {
         phone: data.phone,
         notes: data.notes ?? null,
         companionId: companion?.id ?? null,
-        companionName: companion?.name ?? "",
+        companionName: companion?.name ?? typedCompanion,
       },
     });
 
