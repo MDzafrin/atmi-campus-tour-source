@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { getSettings, getActivePrograms } from "@/lib/site-config";
 import { sendMail, smtpConfigured, appBaseUrl } from "@/lib/mailer";
 import { buildAdminNotifyEmail } from "@/lib/email-template";
+import { queueWhatsApp } from "@/lib/whatsapp";
+import { buildReceivedMessage } from "@/lib/whatsapp-format";
 
 const reservationSchema = z.object({
   tourType: z.string().min(1).max(60),
@@ -152,6 +154,14 @@ export async function POST(req: Request) {
         error: mail.error ?? null,
       },
     });
+
+    // --- Pesan WhatsApp ke pendaftar (masuk antrean, dikirim oleh wa-worker) ---
+    await queueWhatsApp({
+      reservationId: reservation.id,
+      phone: reservation.phone,
+      kind: "RECEIVED",
+      body: buildReceivedMessage(reservation),
+    }).catch((e) => console.error("[wa] gagal masuk antrean:", e));
 
     // Respon TIDAK menyertakan kode reservasi — kartu dikirim setelah verifikasi admin.
     return NextResponse.json({
