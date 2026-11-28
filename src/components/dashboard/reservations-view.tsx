@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   CalendarDays,
   Clock,
-  ExternalLink,
   Inbox,
   Loader2,
   Mail,
@@ -393,11 +392,9 @@ export function ReservationsView() {
                         </span>
                       ) : (
                         <span className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-atmi-navy">
-                          <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />
+                          <Inbox className="h-3 w-3 shrink-0" aria-hidden="true" />
                           <a
                             href="/kotak-masuk"
-                            target="_blank"
-                            rel="noopener noreferrer"
                             className="underline decoration-dotted underline-offset-2 hover:text-atmi-red"
                           >
                             Verifikasi di Kotak Masuk

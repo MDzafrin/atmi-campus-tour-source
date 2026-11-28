@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -9,6 +9,8 @@ import {
   Inbox,
   LogOut,
   Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
   Settings2,
   UserCheck,
   Users,
@@ -16,6 +18,27 @@ import {
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+
+// Status sidebar (ditutup/dibuka) disimpan di browser supaya tetap sama saat pindah halaman.
+const COLLAPSE_KEY = "atmi-admin-sidebar-collapsed";
+const COLLAPSE_EVENT = "atmi-admin-sidebar-change";
+
+function subscribeCollapsed(callback: () => void) {
+  window.addEventListener("storage", callback);
+  window.addEventListener(COLLAPSE_EVENT, callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener(COLLAPSE_EVENT, callback);
+  };
+}
+
+function getCollapsed(): boolean {
+  try {
+    return localStorage.getItem(COLLAPSE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
 
 const NAV = [
   { href: "/admin-atmi", label: "Data Reservasi", icon: Users },
@@ -88,7 +111,6 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </p>
         <Link
           href="/kotak-masuk"
-          target="_blank"
           onClick={onNavigate}
           className="flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:bg-white/10 hover:text-white"
         >
@@ -130,11 +152,26 @@ export function DashboardShell({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const collapsed = useSyncExternalStore(subscribeCollapsed, getCollapsed, () => false);
+
+  const toggleCollapsed = () => {
+    try {
+      localStorage.setItem(COLLAPSE_KEY, collapsed ? "0" : "1");
+    } catch {
+      // penyimpanan browser tidak tersedia: abaikan, tombol tetap berfungsi untuk halaman ini saja
+    }
+    window.dispatchEvent(new Event(COLLAPSE_EVENT));
+  };
 
   return (
     <div className="min-h-screen bg-atmi-sand/40">
       {/* Sidebar desktop */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 bg-atmi-navy-dark lg:block">
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-40 hidden w-64 bg-atmi-navy-dark",
+          !collapsed && "lg:block",
+        )}
+      >
         <SidebarContent />
       </aside>
 
@@ -165,13 +202,35 @@ export function DashboardShell({
       </header>
 
       {/* Konten */}
-      <div className="lg:pl-64">
-        <main className="mx-auto max-w-6xl px-4 py-8 md:px-8">
-          <header className="mb-6">
-            <h1 className="text-2xl font-extrabold text-atmi-navy">{title}</h1>
-            {subtitle ? (
-              <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
-            ) : null}
+      <div className={cn(!collapsed && "lg:pl-64")}>
+        <main
+          className={cn(
+            "mx-auto px-4 py-8 md:px-8",
+            collapsed ? "max-w-none" : "max-w-6xl",
+          )}
+        >
+          <header className="mb-6 flex items-start gap-3">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleCollapsed}
+              className="hidden shrink-0 lg:inline-flex"
+              aria-label={collapsed ? "Buka menu samping" : "Tutup menu samping"}
+              aria-expanded={!collapsed}
+              title={collapsed ? "Buka menu samping" : "Tutup menu samping (tabel jadi lebih lebar)"}
+            >
+              {collapsed ? (
+                <PanelLeftOpen className="h-4 w-4" aria-hidden="true" />
+              ) : (
+                <PanelLeftClose className="h-4 w-4" aria-hidden="true" />
+              )}
+            </Button>
+            <div>
+              <h1 className="text-2xl font-extrabold text-atmi-navy">{title}</h1>
+              {subtitle ? (
+                <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
+              ) : null}
+            </div>
           </header>
           {children}
         </main>
