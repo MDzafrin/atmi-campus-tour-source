@@ -93,21 +93,3 @@ model EmailLog {
   error     String?
   createdAt DateTime @default(now())
 }
-
-// ----------------- Antrean pesan WhatsApp -----------------
-// Diisi oleh aplikasi web (saat reservasi dibuat / diverifikasi), dikirim oleh wa-worker.
-model WaMessage {
-  id            String    @id @default(cuid())
-  reservationId String?
-  toPhone       String // format internasional tanpa "+", mis. 6281234567890
-  kind          String // RECEIVED | VERIFIED
-  body          String
-  status        String    @default("PENDING") // PENDING | SENDING | SENT | FAILED
-  attempts      Int       @default(0)
-  error         String?
-  sentAt        DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  @@index([status, createdAt])
-}

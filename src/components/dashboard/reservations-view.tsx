@@ -9,6 +9,7 @@ import {
   Loader2,
   Mail,
   MailCheck,
+  MessageCircle,
   Phone,
   RefreshCw,
   Search,
@@ -17,6 +18,11 @@ import {
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  buildReceivedMessage,
+  buildVerifiedMessage,
+  normalizePhone,
+} from "@/lib/whatsapp-format";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -39,6 +45,22 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
+/**
+ * Tautan wa.me ke nomor pendaftar dengan pesan yang sudah terisi.
+ * Belum terverifikasi: pesan "pendaftaran diterima". Sudah terverifikasi: pesan berisi tautan kartu.
+ * Mengembalikan null kalau nomor HP tidak valid.
+ */
+function waLink(r: ReservationRow): string | null {
+  const to = normalizePhone(r.phone);
+  if (!to) return null;
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const text =
+    r.status === "CONFIRMED"
+      ? buildVerifiedMessage(r, `${origin}/kartu/${r.verifyToken}`)
+      : buildReceivedMessage(r);
+  return `https://wa.me/${to}?text=${encodeURIComponent(text)}`;
+}
+
 interface ReservationRow {
   id: string;
   code: string;
@@ -53,6 +75,7 @@ interface ReservationRow {
   phone: string;
   notes: string | null;
   companionId?: string | null;
+  verifyToken: string;
   companionName?: string;
   status: string;
   verifiedAt: string | null;
@@ -388,7 +411,41 @@ export function ReservationsView() {
                       ) : null}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <div className="flex items-center justify-end">
+                      <div className="flex items-center justify-end gap-1">
+                        {(() => {
+                          const href = waLink(r);
+                          const verified = r.status === "CONFIRMED";
+                          return href ? (
+                            <Button
+                              asChild
+                              variant="outline"
+                              size="sm"
+                              className="text-green-700 hover:bg-green-50 hover:text-green-800"
+                            >
+                              <a
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title={
+                                  verified
+                                    ? "Kirim kartu reservasi via WhatsApp"
+                                    : "Kirim konfirmasi pendaftaran via WhatsApp"
+                                }
+                                aria-label={`${verified ? "Kirim kartu" : "Kirim konfirmasi"} ke ${r.name} via WhatsApp`}
+                              >
+                                <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+                                {verified ? "Kirim Kartu" : "Kirim WA"}
+                              </a>
+                            </Button>
+                          ) : (
+                            <span
+                              className="px-2 text-[11px] text-muted-foreground"
+                              title="Nomor HP tidak valid"
+                            >
+                              No. HP tidak valid
+                            </span>
+                          );
+                        })()}
                         <Button
                           variant="ghost"
                           size="icon"

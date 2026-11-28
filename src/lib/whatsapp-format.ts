@@ -1,4 +1,5 @@
-// Fungsi murni untuk pesan WhatsApp (tanpa akses database, mudah diuji).
+// Fungsi murni untuk pesan WhatsApp lewat tautan wa.me (tanpa akses database).
+// Dipakai di dashboard: tombol "Kirim WA" membuka WhatsApp dengan pesan yang sudah terisi.
 
 export type WaKind = "RECEIVED" | "VERIFIED";
 
@@ -72,7 +73,7 @@ export function buildReceivedMessage(r: WaReservation): string {
     "",
     "Tim kami akan memverifikasi pendaftaran Anda. Setelah terverifikasi, kartu reservasi dikirim ke WhatsApp ini dan ke email Anda.",
     "",
-    `Pesan ini dikirim otomatis. ${HELP_LINE}`,
+    HELP_LINE,
   ].join("\n");
 }
 
@@ -88,6 +89,6 @@ export function buildVerifiedMessage(r: WaReservation, cardUrl: string): string 
     "",
     "Tunjukkan kartu tersebut kepada petugas keamanan saat tiba di kampus. Mohon datang 15 menit sebelum sesi dimulai.",
     "",
-    `Pesan ini dikirim otomatis. ${HELP_LINE}`,
+    HELP_LINE,
   ].join("\n");
 }

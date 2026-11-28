@@ -4,8 +4,6 @@ import { isAdminRequest } from "@/lib/admin-auth";
 import { sendMail, smtpConfigured, appBaseUrl } from "@/lib/mailer";
 import { buildCardEmail } from "@/lib/email-template";
 import { buildReservationCardPdf } from "@/lib/reservation-card-pdf";
-import { queueWhatsApp } from "@/lib/whatsapp";
-import { buildVerifiedMessage } from "@/lib/whatsapp-format";
 
 /**
  * Verifikasi (setujui) satu reservasi oleh admin.
@@ -89,14 +87,6 @@ export async function POST(
         error: mail.error ?? null,
       },
     });
-
-    // --- Pesan WhatsApp ke pendaftar: kartu terverifikasi + tautan unduh ---
-    await queueWhatsApp({
-      reservationId: reservation.id,
-      phone: reservation.phone,
-      kind: "VERIFIED",
-      body: buildVerifiedMessage(reservation, cardUrl),
-    }).catch((e) => console.error("[wa] gagal masuk antrean:", e));
 
     return NextResponse.json({ ok: true, emailStatus: mail.status });
   } catch (error) {
